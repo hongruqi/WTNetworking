@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'WTNetworking_Example' do
+  pod 'WTNetworking', :path => '../'
+
+  target 'WTNetworking_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
