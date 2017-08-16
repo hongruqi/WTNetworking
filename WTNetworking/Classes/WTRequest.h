@@ -60,14 +60,15 @@
 @property (nonatomic, assign) BOOL forceReload;
 
 /*
- * value = md5({HTTP Method}..' '..{url})
- */
-@property (nonatomic, copy) NSString *uniqueIdentifier;
-
-/*
  * 是否缓存
  */
 @property (nonatomic, assign, readonly) BOOL shouldCache;
+
+/**
+ 列表存储到数据库中，非列表，缓存在内存中
+ */
+@property (nonatomic, assign, readonly) BOOL isList;
+
 /**
  *  是否正在请求中
  */
