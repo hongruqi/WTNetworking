@@ -50,11 +50,6 @@
 @property (nonatomic, copy) onErrorBlock errorBlock;
 
 /*
- * 是否自动显示错误
- */
-@property (nonatomic, assign) BOOL autoShowError;
-
-/*
  * 是否强制刷新数据
  */
 @property (nonatomic, assign) BOOL forceReload;
@@ -77,7 +72,6 @@
 //设置api的版本
 @property (nonatomic, strong) NSString *apiVersion;
 
-@property (nonatomic, assign) BOOL isNeedLogin;
 
 /**
  * 发送请求

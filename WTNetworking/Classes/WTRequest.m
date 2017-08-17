@@ -15,7 +15,6 @@
 @interface WTRequest()
 
 @property (nonatomic, strong) NSURLSessionTask *task;
-@property (nonatomic, strong) WTCache *cache;
 
 @end
 
@@ -39,7 +38,6 @@
 {
     return _modelName;
 }
-
 
 - (BOOL)isRegularUrl:(NSString *)urlStirng
 {
@@ -71,7 +69,7 @@
 
 - (void)sendRequest
 {
-    if (self.shouldCache) {
+    if ([self isCache]) {
         if (self.isList) {
             [self cachedList];
         }else{
@@ -94,9 +92,8 @@
         weakSelf.task = nil;
         NSData *data = model.responseData;
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options: 0 error:nil];
-        BOOL result = [jsonDict[@"result"] boolValue];
         
-        if(result == NO){
+        if(data.length <= 0){
             NSInteger code = [jsonDict[@"errCode"] intValue];
             NSString *errorMessage = jsonDict[@"errMessage"];
             WTNetworkingError *netError = [WTNetworkingError errorWithCode:code errorMessage:errorMessage];
@@ -218,6 +215,15 @@
         [filename appendFormat:@"%@%@", key, obj];
     }];
     return [self md5:filename];
+}
+
+- (BOOL)isCache
+{
+    if (self.shouldCache && !self.forceReload) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (NSString *)md5:(NSString *)str
