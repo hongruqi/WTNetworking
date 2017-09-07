@@ -6,7 +6,6 @@
 //
 
 #import "WTCache.h"
-#import "WTCoreData.h"
 
 @interface WTCache ()
 
@@ -47,18 +46,6 @@
 - (NSData *)cachedDataForKey:(NSString *)cacheKey
 {
     return (NSData *)[self.memCache objectForKey:cacheKey];
-}
-
-- (NSArray *)cacheDataWithClass:(Class)objectClass version:(NSString *)version
-{
-    WTCoreDataContext *context = [[WTCoreDataContext alloc] initWithObjectClass:objectClass version:version];
-    return [context fetchAllObjects];
-}
-
-- (void)saveListWithArray:(NSArray *)array objectClass:(Class)objectClass version:(NSString *)version
-{
-    WTCoreDataContext *context = [[WTCoreDataContext alloc] initWithObjectClass:objectClass version:version];
-    [context insertOrReplaceObjects:array];
 }
 
 - (void)clearMemory

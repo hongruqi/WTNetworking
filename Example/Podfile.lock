@@ -14,14 +14,8 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - FMDB (2.7.2):
-    - FMDB/standard (= 2.7.2)
-  - FMDB/standard (2.7.2)
-  - WTCoreData (1.0.1):
-    - FMDB
-  - WTNetworking (0.1.0):
+  - WTNetworking (1.0.0):
     - AFNetworking
-    - WTCoreData
     - YYModel
   - YYModel (1.0.4)
 
@@ -34,9 +28,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
-  WTCoreData: 140e9603fcb944fce8ee145698c3095d65212e80
-  WTNetworking: 36edd78713c7d6d02620322e8b6bc7601cb52519
+  WTNetworking: c1f00478bf13df8aa26b3af53e15cfc8cb1fe1f2
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
 PODFILE CHECKSUM: 97b572c026f3616718c9e58f14a14f5190e786a5

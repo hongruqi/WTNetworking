@@ -33,7 +33,6 @@ WTNetworking is network feature set.
   s.source_files = 'WTNetworking/Classes/**/*'
   
   s.dependency 'AFNetworking'
-  s.dependency 'WTCoreData'
   s.dependency 'YYModel'
 end
 

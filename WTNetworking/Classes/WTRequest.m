@@ -19,7 +19,8 @@
 @end
 
 @implementation WTRequest
-- (id)init
+
+- (instancetype)init
 {
     if(self = [super init]) {
         self.fields = [NSMutableDictionary dictionaryWithCapacity:3];
@@ -70,11 +71,7 @@
 - (void)sendRequest
 {
     if ([self isCache]) {
-        if (self.isList) {
-            [self cachedList];
-        }else{
-            [self cachedData:[self uniqueIdentifier] url:self.apiUrl];
-        }
+        [self cachedData:[self uniqueIdentifier] url:self.apiUrl];
     }else{
         if ([self.httpMethod isEqualToString:@"GET"]) {
             self.task = [[WTSessionManager sharedInstance] getRequestWithUrl:self.apiUrl params:self.fields completeBlock:[self completeBlock] errorBlock:[self errorBlock]];
@@ -107,15 +104,8 @@
                 Class clzz = NSClassFromString(self.modelName);
                 id dataModel = nil;
                  if (self.shouldCache) {
-                    if (self.isList) {
-                        dataModel = [NSArray yy_modelArrayWithClass:clzz json:data];
-                        if ([dataModel isKindOfClass:[NSArray class]]) {
-                            [[WTCache instance] saveListWithArray:dataModel objectClass:clzz version:self.apiVersion];
-                        }
-                    }else{
                         dataModel = [clzz yy_modelWithJSON:data];
                         [[WTCache instance] saveCacheData:data forKey:self.uniqueIdentifier];
-                    }
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -150,27 +140,6 @@
     return [block copy];
 }
 
-- (void)cachedList
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        Class clzz = NSClassFromString(self.modelName);
-        NSArray *list = [[WTCache instance] cacheDataWithClass:clzz version:self.apiVersion];
-        id dataModel = nil;
-        
-        if(list) {
-            dataModel = list;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (dataModel) {
-                self.completionBlock(dataModel);
-            }
-            
-            self.task = [[WTSessionManager sharedInstance] getRequestWithUrl:self.apiUrl params:self.fields completeBlock:[self completeBlock] errorBlock:[self errorBlock]];
-            
-        });
-    });
-}
 - (void)cachedData:(NSString *)key url:(NSString *)url
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -184,6 +153,7 @@
                 dataModel = [clzz yy_modelWithJSON:dataModel];
             }
         }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             if (dataModel) {
                 self.completionBlock(dataModel);
